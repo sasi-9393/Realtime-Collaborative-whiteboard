@@ -11,7 +11,7 @@ const connectionParams = {
 
 async function connectToDb() {
     try {
-        await mongoose.connect(process.env.connectionString, connectionParams);
+        await mongoose.connect(process.env.CONNECTION_STRING, connectionParams);
         console.log("connected")
     }
     catch (err) {
