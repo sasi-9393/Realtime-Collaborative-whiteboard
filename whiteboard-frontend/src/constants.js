@@ -1,0 +1,50 @@
+export const TOOL_ITEMS = {
+    "BRUSH": "BRUSH",
+    "LINE": "LINE",
+    "CIRCLE": "CIRCLE",
+    "ARROW": "ARROW",
+    "UNDO": "UNDO",
+    "REDO": "REDO",
+    "DOWNLOAD": "DOWNLOAD",
+    "RECTANGLE": "RECTANGLE",
+    "TEXT": "TEXT",
+    "ERASER": "ERASER",
+
+}
+export const TOOL_ACTION_TYPE = {
+    "NONE": "NONE",
+    "DRAWING": "DRAWING",
+    "ERASING": "ERASING",
+    "TYPING": "TYPING"
+};
+
+export const BOARD_ACTIONS = {
+    CHANGE_TOOL: "CHANGE_TOOL",
+    DRAW_DOWN: "DRAW_DOWN",
+    DRAW_DOWN: "DRAW_DOWN",
+    DRAW_UP: "DRAW_UP",
+    DRAW_MOVE: "DRAW_MOVE",
+
+}
+
+export const COLORS = {
+    "BLACK": "#000000",
+    "RED": "#FF0000",
+    "GREEN": "#00FF00",
+    "BLUE": "#0000FF",
+    "ORANGE": "#FFA500",
+    "YELLOW": "#FFFF00",
+    "WHITE": "#FFFFFF"
+};
+
+export const nonFillTools = [TOOL_ITEMS.TEXT, TOOL_ITEMS.ARROW, TOOL_ITEMS.BRUSH, TOOL_ITEMS.LINE]
+
+export const nonToolBoxItems = [TOOL_ITEMS.ERASER, TOOL_ITEMS.REDO, TOOL_ITEMS.UNDO, TOOL_ITEMS.DOWNLOAD]
+
+export const nonSizeTools = [TOOL_ITEMS.ERASER, TOOL_ITEMS.REDO, TOOL_ITEMS.UNDO, TOOL_ITEMS.DOWNLOAD, TOOL_ITEMS.BRUSH, TOOL_ITEMS.TEXT]
+
+
+export const ERASER_THRESHOULDS = {
+    "LINE": 0.1,
+    "RECTANGLE": 2
+}
