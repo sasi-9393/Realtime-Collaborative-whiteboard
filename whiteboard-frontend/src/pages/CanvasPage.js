@@ -4,7 +4,7 @@ import Board from "../Components/Board/index";
 import Toolbar from "../Components/Toolbar/index";
 import Toolbox from "../Components/Toolbox/index";
 import BoardProvider from "../store/BoardProvider";
-import ToolbarProvider from "../store/ToolbarProvider";
+import ToolbarProvider from "../store/toolboxProvider";
 
 function CanvasPage() {
     const { id } = useParams();
