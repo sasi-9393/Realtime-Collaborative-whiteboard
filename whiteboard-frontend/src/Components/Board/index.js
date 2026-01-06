@@ -6,7 +6,7 @@ import { TOOL_ACTION_TYPE, TOOL_ITEMS } from "../../constants";
 import BoardContext from "../../store/BoardContext";
 import ToolbarContext from "../../store/toolboxContext";
 
-const SOCKET_URL = "http://localhost:5000";
+const SOCKET_URL = "https://realtime-collaborative-whiteboard-pcpd.onrender.com";
 
 // Debounce utility
 function debounce(func, delay) {

@@ -1,5 +1,5 @@
 // update the canvas
-const API_URL = "http://localhost:5000/canvases";
+const API_URL = "https://realtime-collaborative-whiteboard-pcpd.onrender.com/canvases";
 
 export const updateCanvas = async function (id, elements) {
     try {

@@ -9,7 +9,7 @@ import BoardProvider from "../store/BoardProvider";
 import ToolbarProvider from "../store/toolboxProvider";
 import "./CanvasPage.css";
 
-const SOCKET_URL = "http://localhost:5000";
+const SOCKET_URL = "https://realtime-collaborative-whiteboard-pcpd.onrender.com";
 
 function CanvasPageContent() {
     const { id } = useParams();
@@ -89,7 +89,7 @@ function CanvasPageContent() {
 
         const fetchCanvas = async () => {
             try {
-                const res = await fetch(`http://localhost:5000/canvases/load/${id}`, {
+                const res = await fetch(`https://realtime-collaborative-whiteboard-pcpd.onrender.com/canvases/load/${id}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 
@@ -138,7 +138,7 @@ function CanvasPageContent() {
         }
 
         try {
-            const res = await fetch(`http://localhost:5000/canvases/share/${id}`, {
+            const res = await fetch(`https://realtime-collaborative-whiteboard-pcpd.onrender.com/canvases/share/${id}`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -286,7 +286,7 @@ function CanvasPage() {
 
         const fetchCanvas = async () => {
             try {
-                const res = await fetch(`http://localhost:5000/canvases/load/${id}`, {
+                const res = await fetch(`https://realtime-collaborative-whiteboard-pcpd.onrender.com/canvases/load/${id}`, {
                     headers: { Authorization: `Bearer ${token}` },
                 });
 

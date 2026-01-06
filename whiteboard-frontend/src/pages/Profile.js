@@ -28,7 +28,7 @@ function Profile() {
 
         const fetchCanvases = async () => {
             try {
-                const res = await fetch("http://localhost:5000/canvases", {
+                const res = await fetch("https://realtime-collaborative-whiteboard-pcpd.onrender.com/canvases", {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 const data = await res.json();
@@ -55,7 +55,7 @@ function Profile() {
 
         setCreating(true);
         try {
-            const res = await fetch("http://localhost:5000/canvases", {
+            const res = await fetch("https://realtime-collaborative-whiteboard-pcpd.onrender.com/canvases", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -81,7 +81,7 @@ function Profile() {
         console.log('Attempting to delete canvas:', id);
 
         try {
-            const res = await fetch(`http://localhost:5000/canvases/${id}`, {
+            const res = await fetch(`https://realtime-collaborative-whiteboard-pcpd.onrender.com/canvases/${id}`, {
                 method: "DELETE",
                 headers: { Authorization: `Bearer ${token}` }
             });
