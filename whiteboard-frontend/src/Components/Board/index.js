@@ -1,10 +1,22 @@
 import getStroke from "perfect-freehand";
-import { useContext, useEffect, useLayoutEffect, useRef } from "react";
+import { useCallback, useContext, useEffect, useLayoutEffect, useRef } from "react";
 import rough from "roughjs";
 import { updateCanvas } from "../../api";
 import { TOOL_ACTION_TYPE, TOOL_ITEMS } from "../../constants";
 import BoardContext from "../../store/BoardContext";
 import ToolbarContext from "../../store/toolboxContext";
+
+const SOCKET_URL = "http://localhost:5000";
+
+// Debounce utility
+function debounce(func, delay) {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => func(...args), delay);
+    };
+}
+
 function getSvgPathFromStroke(points) {
     if (points.length === 0) return "";
     const stroke = getStroke(points, { size: 8 });
@@ -15,13 +27,25 @@ function getSvgPathFromStroke(points) {
 
 const Board = (props) => {
     const id = props.id;
+    const sendElements = props.sendElements;
+
     const { activeToolItem, elements, boardMouseDownHandler, boardMouseMoveHandler, toolActionType, boardMouseUpHandler, handleInputChange, handleBlur } = useContext(BoardContext);
     const { toolboxState } = useContext(ToolbarContext);
     const inputFocus = useRef();
     const canvasRef = useRef();
 
-    // removed the previous useEffect that set canvas size here
-    // and instead set canvas size inside useLayoutEffect (before drawing)
+    const token = localStorage.getItem("token");
+    const isDrawingRef = useRef(false);
+
+    // Debounced function to send elements during drawing
+    const debouncedSendElements = useCallback(
+        debounce((elementsToSend) => {
+            if (sendElements) {
+                sendElements(elementsToSend);
+            }
+        }, 100), // Send updates every 100ms during drawing
+        [sendElements]
+    );
 
     useLayoutEffect(() => {
         const canvas = canvasRef.current;
@@ -76,24 +100,38 @@ const Board = (props) => {
         }
     }, [toolActionType])
 
-
     // handle window resize so we update canvas size and force a redraw
-
 
     function handleMouseDown(event) {
         // when action type is drawing then only handle move else dont draw so basically to draw we have to hold then only drawing happens
         // this drawing is setted when we click meand onMouseDown
         // and we reset it to "NONE" onMouseUp
         boardMouseDownHandler(event, toolboxState);
+        isDrawingRef.current = true;
     }
     function handleMouseMove(event) {
-        if (toolActionType === "DRAWING" || toolActionType === "ERASING") boardMouseMoveHandler(event, toolboxState);
+        if (toolActionType === "DRAWING" || toolActionType === "ERASING") {
+            boardMouseMoveHandler(event, toolboxState);
+
+            // Send updates while drawing (debounced) for live collaboration
+            if (isDrawingRef.current) {
+                debouncedSendElements(elements);
+            }
+        }
     }
     async function handleMouseUp() {
         boardMouseUpHandler();
+        isDrawingRef.current = false;
+
         try {
+            // Save to database
             await updateCanvas(id, elements);
             console.log("Canvas updated on backend");
+
+            // Final send to ensure all users get the complete element
+            if (sendElements) {
+                sendElements(elements);
+            }
         } catch (err) {
             console.error("Failed to sync canvas:", err);
         }

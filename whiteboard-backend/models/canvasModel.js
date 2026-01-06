@@ -108,6 +108,44 @@ canvasSchema.statics.deleteCanvas = async function (email, id) {
 
     return canvas;
 };
+canvasSchema.statics.shareCanvas = async function (email, canvasId, sharedWithEmail) {
+    const user = await User.findOne({ email });
+    if (!user) {
+        throw new Error("User not found");
+    }
+
+    const canvas = await this.findById(canvasId);
+    if (!canvas) {
+        throw new Error("Canvas not found");
+    }
+
+    // Check if user is the owner
+    if (canvas.owner.toString() !== user._id.toString()) {
+        throw new Error("You can only share your own canvas");
+    }
+
+    // Find the user to share with
+    const sharedWithUser = await User.findOne({ email: sharedWithEmail });
+    if (!sharedWithUser) {
+        throw new Error("User with email " + sharedWithEmail + " not found");
+    }
+
+    // Prevent self-sharing
+    if (user._id.toString() === sharedWithUser._id.toString()) {
+        throw new Error("Cannot share canvas with yourself");
+    }
+
+    // Check if already shared
+    if (canvas.shared_with.includes(sharedWithUser._id)) {
+        throw new Error("Canvas already shared with this user");
+    }
+
+    // Add to shared_with
+    canvas.shared_with.push(sharedWithUser._id);
+    const updatedCanvas = await canvas.save();
+
+    return updatedCanvas;
+};
 
 
 const Canvas = mongoose.model("Canvas", canvasSchema);

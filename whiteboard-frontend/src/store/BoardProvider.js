@@ -12,7 +12,9 @@ function boardReducer(state, action) {
     if (action.type === 'SET_ELEMENTS') {
         return {
             ...state,
-            elements: action.payload
+            elements: action.payload,
+            history: [...state.history.slice(0, state.index + 1), action.payload],
+            index: state.index + 1
         };
     }
 
@@ -313,6 +315,7 @@ const BoardProvider = ({ children, initialElements }) => {
         handleBlur,
         boardUndoHandler,
         boardRedoHandler,
+        dispatchBoardActions, // Export this for remote updates
     }
     return (
         <BoardContext.Provider value={

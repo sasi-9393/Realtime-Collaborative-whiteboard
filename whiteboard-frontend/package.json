@@ -704,6 +704,7 @@
     "signal-exit": "^3.0.7",
     "sisteransi": "^1.0.5",
     "slash": "^3.0.0",
+    "socket.io-client": "^4.8.3",
     "sockjs": "^0.3.24",
     "source-list-map": "^2.0.1",
     "source-map": "^0.7.6",

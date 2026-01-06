@@ -13,5 +13,6 @@ const BoardContext = createContext({
     handleBlur: function () { },
     boardUndoHandler: function () { },
     boardRedoHandler: function () { },
+    dispatchBoardActions: function () { }, // Add this for remote updates
 });
 export default BoardContext;
